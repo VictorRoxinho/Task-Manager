@@ -52,9 +52,11 @@
     border-radius: 10px;
 }
 
-.input-category:hover {
+.input-category-selected {
     background-color: #646cff;
     color: #fff;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .calendar-icon {
@@ -83,7 +85,7 @@
     transform: rotate(45deg);
 }
 
-/* Task List */
+/* TASK LIST */
 .task-list {
     margin-top: 50px;
     display: grid;
@@ -113,6 +115,7 @@
     border: solid 1px #646cff;
     border-radius: 0 20px 20px 0;
     padding: 13px;
+    width: 90%;
 }
 
 .item-title {
@@ -128,6 +131,7 @@
     display: flex;
     justify-content: end;
     gap: 10px;
+    font-style: italic;
 }
 
 
