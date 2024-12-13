@@ -16,7 +16,7 @@ function TaskPage() {
         } else {
             setIsValid(false)
         }
-    }, [addTask])
+    }, [taskText, taskCategory])
 
     // Categoria
     const handleCategory = (e) => {
@@ -48,11 +48,53 @@ function TaskPage() {
             completed: false,
             favorite: false
         };
-        
+
         setTasks([...tasks, newTask]);
         setTaskCategory('');
         setTaskText('');
 
+    }
+
+    // Finalizar Tarefa
+    const handleFinish = (id) => {
+        setTasks(tasks.map(task => (
+            task.id === id ? {...task, completed: !task.completed} : task
+        )))
+    }
+
+    // Deletar Tarefa
+    const handleDelete = (id) => {
+       setTasks(tasks.filter(task => task.id !== id))
+    }
+
+    // Editar Tarefa
+    const [isEditing, setIsEditing] = useState(null)
+    const handleEdit = (id) => {
+        const taskToEdit = tasks.find(task => task.id === id)
+        setTaskText(taskToEdit.text)
+        setTaskCategory(taskToEdit.category);
+        setIsEditing(id)
+    }
+
+    const handleSave = () => {
+        const updateTask = {
+            ...tasks.find(task => task.id === isEditing),
+            text: taskText,
+            category: taskCategory
+        }
+        setTasks(tasks.map(task => (
+            task.id === isEditing ? updateTask : task
+        )))
+        setIsEditing(null);
+        setTaskText('');
+        setTaskCategory('');
+    }
+ 
+    // Favoritar Tarefa
+    const handleFavorite = (id) => {
+        setTasks(tasks.map(task => (
+            task.id === id ? {...task, favorite: !task.favorite} : task
+        )))
     }
 
     return (
@@ -68,7 +110,10 @@ function TaskPage() {
                 rows="3"
                 onChange={handleText}
             />
-            <button className='input-button primary-color' onClick={addTask}>
+            <button
+            className={isEditing ? 'input-button secondary-color' : 'input-button primary-color'}
+            onClick={isEditing ? handleSave : addTask}
+            >
                 <FontAwesomeIcon icon={faPlus} />
             </button>
         </div>
@@ -85,14 +130,18 @@ function TaskPage() {
         {tasks.map((task) => (
             <div key={task.id} className="task-list-item">
                 <div className="item-top primary-color">
-                    <FontAwesomeIcon icon={faCheck} />
-                    <FontAwesomeIcon icon={faEdit} />
-                    <FontAwesomeIcon icon={faTrash} />
-                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faCheck} cursor='pointer' onClick={() => handleFinish(task.id)}/>
+                    <FontAwesomeIcon icon={faEdit} cursor='pointer' onClick={() => handleEdit(task.id)}/>
+                    <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(task.id)} cursor='pointer'/>
+                    <FontAwesomeIcon icon={faStar} 
+                    cursor='pointer' 
+                    onClick={() => handleFavorite(task.id)}
+                    className={task.favorite ? 'icon-favorite' : ''}
+                    />
                 </div>
-                <div className="item-bottom secondary-color">
+                <div className={task.favorite ? 'item-bottom-favorite secondary-color' : 'item-bottom secondary-color'}>
                     <div className='item-title'>
-                        <p>{task.text}</p>
+                        <p className={task.completed ? 'task-completed' : ''}>{task.text}</p>
                     </div>
                     <div className='item-category'>
                         <p>{task.category}</p>

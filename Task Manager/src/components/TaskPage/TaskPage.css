@@ -108,11 +108,17 @@
     justify-content: space-between;
     padding: 13px;
     border-radius: 20px 0 0 20px;
-    cursor: pointer;
 }
 
 .item-bottom {
     border: solid 1px #646cff;
+    border-radius: 0 20px 20px 0;
+    padding: 13px;
+    width: 90%;
+}
+
+.item-bottom-favorite {
+    border: solid 3px gold;
     border-radius: 0 20px 20px 0;
     padding: 13px;
     width: 90%;
@@ -126,6 +132,10 @@
     height: 80%;
 }
 
+.task-completed {
+    text-decoration: line-through;
+}
+
 .item-category {
     height: 20%;
     display: flex;
@@ -134,4 +144,6 @@
     font-style: italic;
 }
 
-
+.icon-favorite {
+    color: gold;
+}
